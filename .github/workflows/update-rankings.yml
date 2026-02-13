@@ -1,0 +1,69 @@
+name: Update Golf Rankings
+
+on:
+  schedule:
+    # Run every Monday at 6 AM UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-rankings:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install requests beautifulsoup4
+        
+    - name: Fetch latest rankings
+      run: python scripts/fetch-rankings.py
+      
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'Rankings Bot'
+        git config --global user.email 'bot@golfr.app'
+        git add rankings.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update rankings $(date +'%Y-%m-%d')" && git push)
+
+name: Update Golf Rankings
+
+on:
+  schedule:
+    # Run every Monday at 6 AM UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-rankings:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install requests beautifulsoup4
+        
+    - name: Fetch latest rankings
+      run: python scripts/fetch-rankings.py
+      
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'Rankings Bot'
+        git config --global user.email 'bot@golfr.app'
+        git add rankings.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update rankings $(date +'%Y-%m-%d')" && git push)

@@ -7,7 +7,6 @@
     <title>Golfr Pro - Fantasy Golf League</title>
     <link rel="manifest" href="manifest.json">
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -69,7 +68,6 @@
             padding: 0;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -153,7 +151,6 @@
             50% { opacity: 0.5; }
         }
 
-        /* Tournament Selector */
         .tournament-selector {
             background: var(--bg-primary);
             padding: 1.5rem 2rem;
@@ -248,17 +245,6 @@
             border-color: var(--primary);
         }
 
-        .btn-accent {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-accent:hover {
-            background: #d97706;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Tabs */
         .nav-tabs {
             background: var(--bg-primary);
             padding: 0 2rem;
@@ -299,7 +285,6 @@
             border-bottom-color: var(--primary);
         }
 
-        /* Main Content */
         .main-content {
             padding: 2rem;
         }
@@ -347,7 +332,6 @@
             margin-top: 0.25rem;
         }
 
-        /* Form Elements */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -378,7 +362,6 @@
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
-        /* Scoring Mode Selection */
         .scoring-modes {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -427,7 +410,6 @@
             color: var(--text-secondary);
         }
 
-        /* Player Inputs */
         .players-input-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -435,7 +417,6 @@
             margin-top: 1rem;
         }
 
-        /* Draft Interface */
         .draft-container {
             display: grid;
             gap: 1.5rem;
@@ -571,7 +552,6 @@
             color: var(--text-primary);
         }
 
-        /* Leaderboard */
         .leaderboard-table {
             width: 100%;
             border-collapse: separate;
@@ -586,8 +566,6 @@
             color: var(--text-primary);
             font-size: 0.9rem;
             border-bottom: 2px solid var(--border);
-            position: sticky;
-            top: 146px;
         }
 
         .leaderboard-table tbody tr {
@@ -597,7 +575,6 @@
 
         .leaderboard-table tbody tr:hover {
             background: var(--bg-secondary);
-            transform: scale(1.01);
         }
 
         .leaderboard-table td {
@@ -626,156 +603,10 @@
             font-weight: 700;
         }
 
-        .score-positive {
-            color: var(--error);
-        }
+        .score-positive { color: var(--error); }
+        .score-negative { color: var(--success); }
+        .score-even { color: var(--text-secondary); }
 
-        .score-negative {
-            color: var(--success);
-        }
-
-        .score-even {
-            color: var(--text-secondary);
-        }
-
-        /* Analytics Dashboard */
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .stat-card-label {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .stat-card-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-card-change {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .chart-container {
-            background: var(--bg-primary);
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 2px 4px var(--shadow);
-            margin-bottom: 2rem;
-        }
-
-        .chart-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        /* Achievement Badges */
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .achievement-badge {
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
-
-        .achievement-badge.unlocked {
-            border-color: var(--primary);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .achievement-badge.locked {
-            opacity: 0.5;
-        }
-
-        .achievement-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .achievement-name {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .achievement-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* Chat/Social */
-        .chat-container {
-            background: var(--bg-primary);
-            border-radius: 1rem;
-            box-shadow: 0 2px 4px var(--shadow);
-            display: flex;
-            flex-direction: column;
-            height: 500px;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
-
-        .chat-message {
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            background: var(--bg-secondary);
-        }
-
-        .chat-author {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .chat-text {
-            color: var(--text-primary);
-        }
-
-        .chat-input-container {
-            padding: 1rem;
-            border-top: 2px solid var(--border);
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        /* AI Assistant */
         .ai-assistant {
             background: linear-gradient(135deg, var(--secondary) 0%, #7c3aed 100%);
             color: white;
@@ -801,7 +632,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Loading States */
         .loading {
             display: inline-flex;
             align-items: center;
@@ -821,66 +651,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
-            }
-
-            .logo {
-                font-size: 2rem;
-            }
-
-            .main-content {
-                padding: 1rem;
-            }
-
-            .card {
-                padding: 1.5rem;
-            }
-
-            .tournament-selector {
-                padding: 1rem;
-            }
-
-            .nav-tabs {
-                padding: 0 1rem;
-            }
-
-            .golfer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .analytics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* PWA Install Prompt */
-        .install-prompt {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px var(--shadow);
-            display: none;
-            animation: slideUp 0.3s ease;
-            z-index: 1000;
-        }
-
-        .install-prompt.show {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Notifications */
         .notification {
             position: fixed;
             top: 100px;
@@ -899,11 +669,20 @@
             from { transform: translateX(400px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+
+        @media (max-width: 768px) {
+            .header { padding: 1rem; }
+            .logo { font-size: 2rem; }
+            .main-content { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .tournament-selector { padding: 1rem; }
+            .nav-tabs { padding: 0 1rem; }
+            .golfer-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
         <header class="header">
             <div class="header-content">
                 <div>
@@ -922,7 +701,6 @@
             </div>
         </header>
 
-        <!-- Tournament Selector -->
         <div class="tournament-selector">
             <div class="tournament-selector-content">
                 <div class="tournament-select-wrapper">
@@ -932,32 +710,22 @@
                     </select>
                 </div>
                 <div class="header-btn-group">
-                    <button class="btn btn-secondary" id="viewRankingsBtn">
-                        👁️ View Rankings
-                    </button>
-                    <button class="btn btn-primary" id="updateRankingsBtn">
-                        ✏️ Update Rankings
-                    </button>
+                    <button class="btn btn-secondary" id="viewRankingsBtn">👁️ View Rankings</button>
+                    <button class="btn btn-primary" id="updateRankingsBtn">✏️ Update Rankings</button>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
         <nav class="nav-tabs">
             <div class="nav-tabs-content">
                 <button class="tab active" data-tab="setup">Setup</button>
                 <button class="tab" data-tab="draft">Draft</button>
                 <button class="tab" data-tab="leaderboard">Leaderboard</button>
-                <button class="tab" data-tab="analytics">Analytics</button>
-                <button class="tab" data-tab="social">Social</button>
-                <button class="tab" data-tab="history">History</button>
                 <button class="tab" data-tab="rules">Rules</button>
             </div>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Setup Section -->
             <section id="setup" class="content-section active">
                 <div class="card">
                     <div class="card-header">
@@ -1015,10 +783,8 @@
                 </div>
             </section>
 
-            <!-- Draft Section -->
             <section id="draft" class="content-section">
                 <div class="draft-container">
-                    <!-- AI Assistant -->
                     <div class="ai-assistant">
                         <div class="ai-title">
                             <span>🤖</span>
@@ -1027,7 +793,6 @@
                         <div id="aiSuggestions"></div>
                     </div>
 
-                    <!-- Draft Timer -->
                     <div class="draft-timer">
                         <div class="current-picker">Current Pick: <span id="currentPicker">-</span></div>
                         <div class="timer-display" id="timerDisplay">1:30</div>
@@ -1035,13 +800,11 @@
                     </div>
 
                     <div class="draft-main">
-                        <!-- Draft Order Sidebar -->
                         <div class="draft-order">
                             <div class="draft-order-title">Draft Order</div>
                             <div id="draftOrderList"></div>
                         </div>
 
-                        <!-- Golfer Selection -->
                         <div>
                             <div class="card">
                                 <div class="card-header">
@@ -1060,7 +823,6 @@
                 </div>
             </section>
 
-            <!-- Leaderboard Section -->
             <section id="leaderboard" class="content-section">
                 <div class="card">
                     <div class="card-header">
@@ -1068,9 +830,7 @@
                             <h2 class="card-title">Leaderboard</h2>
                             <p class="card-subtitle">Current standings</p>
                         </div>
-                        <button class="btn btn-primary" id="refreshScoresBtn">
-                            🔄 Refresh Scores
-                        </button>
+                        <button class="btn btn-primary" id="refreshScoresBtn">🔄 Refresh Scores</button>
                     </div>
                     <table class="leaderboard-table">
                         <thead>
@@ -1093,119 +853,9 @@
                 </div>
             </section>
 
-            <!-- Analytics Section -->
-            <section id="analytics" class="content-section">
-                <h2 class="card-title" style="margin-bottom: 1.5rem;">Analytics Dashboard</h2>
-                
-                <div class="analytics-grid">
-                    <div class="stat-card">
-                        <div class="stat-card-label">Tournaments Played</div>
-                        <div class="stat-card-value" id="statsTotal">0</div>
-                        <div class="stat-card-change">All-time</div>
-                    </div>
-                    <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-                        <div class="stat-card-label">Wins</div>
-                        <div class="stat-card-value" id="statsWins">0</div>
-                        <div class="stat-card-change">1st place finishes</div>
-                    </div>
-                    <div class="stat-card" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
-                        <div class="stat-card-label">Average Finish</div>
-                        <div class="stat-card-value" id="statsAvgFinish">-</div>
-                        <div class="stat-card-change">Position</div>
-                    </div>
-                    <div class="stat-card" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">
-                        <div class="stat-card-label">Best Score</div>
-                        <div class="stat-card-value" id="statsBestScore">-</div>
-                        <div class="stat-card-change">Lowest round</div>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <h3 class="chart-title">Performance Over Time</h3>
-                    <canvas id="performanceChart" style="max-height: 300px;"></canvas>
-                </div>
-
-                <div class="chart-container">
-                    <h3 class="chart-title">Top Golfers Selected</h3>
-                    <canvas id="golfersChart" style="max-height: 300px;"></canvas>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Achievements</h3>
-                    </div>
-                    <div class="achievements-grid">
-                        <div class="achievement-badge unlocked">
-                            <div class="achievement-icon">🏆</div>
-                            <div class="achievement-name">First Win</div>
-                            <div class="achievement-desc">Win your first tournament</div>
-                        </div>
-                        <div class="achievement-badge locked">
-                            <div class="achievement-icon">🔥</div>
-                            <div class="achievement-name">Hot Streak</div>
-                            <div class="achievement-desc">Win 3 tournaments in a row</div>
-                        </div>
-                        <div class="achievement-badge locked">
-                            <div class="achievement-icon">🎯</div>
-                            <div class="achievement-name">Perfect Pick</div>
-                            <div class="achievement-desc">All golfers make the cut</div>
-                        </div>
-                        <div class="achievement-badge locked">
-                            <div class="achievement-icon">⚡</div>
-                            <div class="achievement-name">Speed Drafter</div>
-                            <div class="achievement-desc">Complete draft under 10 mins</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Social Section -->
-            <section id="social" class="content-section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">League Chat</h2>
-                    </div>
-                    <div class="chat-container">
-                        <div class="chat-messages" id="chatMessages">
-                            <div class="chat-message">
-                                <div class="chat-author">System</div>
-                                <div class="chat-text">Welcome to the league chat! 🎉</div>
-                            </div>
-                        </div>
-                        <div class="chat-input-container">
-                            <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
-                            <button class="btn btn-primary" id="sendChatBtn">Send</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 2rem;">
-                    <div class="card-header">
-                        <h3 class="card-title">Recent Activity</h3>
-                    </div>
-                    <div id="activityFeed"></div>
-                </div>
-            </section>
-
-            <!-- History Section -->
-            <section id="history" class="content-section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Tournament History</h2>
-                    </div>
-                    <div id="historyList">
-                        <p style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                            No tournament history yet. Start your first draft!
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Rules Section -->
             <section id="rules" class="content-section">
                 <div class="card">
                     <h2 class="card-title" style="margin-bottom: 1.5rem;">📖 Golfr League Rules</h2>
-
                     <h3 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🎯 Draft Format</h3>
                     <p style="margin-bottom: 1rem;">Each player drafts 7 golfers total:</p>
                     <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 2;">
@@ -1213,26 +863,11 @@
                         <li><strong>2 picks</strong> from Ranks 30–50</li>
                         <li><strong>1 Wildcard pick</strong> from veteran players</li>
                     </ul>
-                    <p style="margin-bottom: 1.5rem;"><strong>Snake Draft:</strong> Players alternate picks. Once you select a golfer, they're unavailable to others.</p>
+                </div>
+            </section>
+        </main>
+    </div>
 
-                    <h3 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🌐 Multi-Device Drafting</h3>
-                    <p style="margin-bottom: 1rem;"><strong>Draft with friends from anywhere!</strong></p>
-                    <ol style="margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 2;">
-                        <li>One person creates the tournament and starts the draft</li>
-                        <li>Other players open Golfr on their device</li>
-                        <li>Everyone selects the same tournament from the dropdown</li>
-                        <li>Click the Draft tab to join the live draft</li>
-                        <li>When it's your turn, the interface shows your name in green</li>
-                        <li>Picks sync automatically across all devices every 2 seconds</li>
-                    </ol>
-
-                    <h3 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🎯 Scoring Modes</h3>
-                    
-                    <h4 style="margin-top: 1rem; margin-bottom: 0.5rem;">Standard Mode</h4>
-                    <p style="margin-bottom: 1rem;">Your team score is the sum of all 7 golfers' scores. Lower total wins.</p>
-
-                    <h4 style="margin-top: 1rem; margin-bottom: 0.5rem;">Best Ball Mode</h4>
-                    <p style="margin-bottom: 1.5rem;">Only your best 5 golfers count toward your score. Your worst 2 scores are dropped.</p>
-
-                    <h4 style="margin-top: 1rem; margin-bottom: 0.5rem;">Match Play Mode</h4>
-                    <p style="ma
+    <script src="app.js"></script>
+</body>
+</html>

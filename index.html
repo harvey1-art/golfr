@@ -1,873 +1,617 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#10b981">
-    <title>Golfr Pro - Fantasy Golf League</title>
-    <link rel="manifest" href="manifest.json">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #34d399;
-            --secondary: #6366f1;
-            --accent: #f59e0b;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --bg-tertiary: #f3f4f6;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --text-tertiary: #9ca3af;
-            --border: #e5e7eb;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --info: #3b82f6;
-        }
-
-        [data-theme="dark"] {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #34d399;
-            --secondary: #818cf8;
-            --accent: #fbbf24;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-tertiary: #94a3b8;
-            --border: #334155;
-            --shadow: rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0;
-        }
-
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 4px 6px var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header-subtitle {
-            font-size: 0.9rem;
-            opacity: 0.95;
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.1);
-        }
-
-        .sync-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .sync-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .tournament-selector {
-            background: var(--bg-primary);
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 4px var(--shadow);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .tournament-selector-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .tournament-select-wrapper {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .tournament-select-wrapper label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        select:hover {
-            border-color: var(--primary);
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-
-        .header-btn-group {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow);
-        }
-
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-secondary);
-            border-color: var(--primary);
-        }
-
-        .nav-tabs {
-            background: var(--bg-primary);
-            padding: 0 2rem;
-            box-shadow: 0 2px 4px var(--shadow);
-            position: sticky;
-            top: 73px;
-            z-index: 99;
-        }
-
-        .nav-tabs-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-        }
-
-        .tab {
-            padding: 1rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .main-content {
-            padding: 2rem;
-        }
-
-        .content-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: var(--bg-primary);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px var(--shadow);
-            margin-bottom: 2rem;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .card-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-
-        .scoring-modes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .scoring-mode {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .scoring-mode input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .scoring-mode-card {
-            padding: 1.5rem;
-            border: 2px solid var(--border);
-            border-radius: 0.75rem;
-            background: var(--bg-secondary);
-            transition: all 0.2s ease;
-        }
-
-        .scoring-mode input[type="radio"]:checked + .scoring-mode-card {
-            border-color: var(--primary);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .scoring-mode-card:hover {
-            border-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow);
-        }
-
-        .scoring-mode-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .scoring-mode-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .players-input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .draft-container {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .draft-timer {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            text-align: center;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .timer-display {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 1rem 0;
-        }
-
-        .current-picker {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .draft-main {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 1024px) {
-            .draft-main {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .draft-order {
-            background: var(--bg-primary);
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 2px 4px var(--shadow);
-        }
-
-        .draft-order-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .player-item {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            background: var(--bg-secondary);
-            border-left: 4px solid transparent;
-        }
-
-        .player-item.active {
-            background: rgba(16, 185, 129, 0.1);
-            border-left-color: var(--primary);
-            font-weight: 600;
-        }
-
-        .golfer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .golfer-card {
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .golfer-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow);
-        }
-
-        .golfer-card.picked {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: var(--bg-tertiary);
-        }
-
-        .golfer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 0.75rem;
-        }
-
-        .golfer-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .golfer-rank {
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .golfer-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-        }
-
-        .stat-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        .leaderboard-table thead th {
-            background: var(--bg-tertiary);
-            padding: 1rem;
-            text-align: left;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .leaderboard-table tbody tr {
-            background: var(--bg-primary);
-            transition: all 0.2s ease;
-        }
-
-        .leaderboard-table tbody tr:hover {
-            background: var(--bg-secondary);
-        }
-
-        .leaderboard-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .rank-cell {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-tertiary);
-            width: 60px;
-        }
-
-        .rank-1 { color: #fbbf24; }
-        .rank-2 { color: #9ca3af; }
-        .rank-3 { color: #cd7f32; }
-
-        .player-name-cell {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .score-cell {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .score-positive { color: var(--error); }
-        .score-negative { color: var(--success); }
-        .score-even { color: var(--text-secondary); }
-
-        .ai-assistant {
-            background: linear-gradient(135deg, var(--secondary) 0%, #7c3aed 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px var(--shadow);
-            margin-bottom: 2rem;
-        }
-
-        .ai-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .ai-suggestion {
-            background: rgba(255,255,255,0.1);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .loading {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 2rem;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px var(--shadow);
-            border-left: 4px solid var(--primary);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            .header { padding: 1rem; }
-            .logo { font-size: 2rem; }
-            .main-content { padding: 1rem; }
-            .card { padding: 1.5rem; }
-            .tournament-selector { padding: 1rem; }
-            .nav-tabs { padding: 0 1rem; }
-            .golfer-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>GOLFR — Fantasy Golf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+--g900:#0c1f0e;--g800:#14351a;--g700:#1a4a23;--g600:#1e6b2d;
+--g500:#22884a;--g400:#34d278;--g300:#6ee7a0;
+--gold:#d4a843;--gold-l:#f0d78c;--silver:#a8b5c0;--bronze:#b87333;
+--red:#ef4444;--red-l:#f87171;--amber:#f59e0b;
+--w:#fafdf7;--g50:#f4f7f2;--g100:#e8ece5;--g200:#d1d9cc;
+--g400c:#8a9484;--g600c:#4d5a46;--g800c:#2a332a;
+--bg:var(--w);--bg2:#ffffff;--bg3:var(--g50);
+--bgh:var(--g800);--tx:var(--g900);--tx2:var(--g600c);
+--txm:var(--g400c);--brd:var(--g100);
+--sh:0 1px 3px rgba(12,31,14,.06);--sh2:0 10px 30px rgba(12,31,14,.08);
+--r:14px;--rs:10px;--rxs:6px;
+--t:.2s cubic-bezier(.4,0,.2,1);
+--fd:'DM Serif Display',Georgia,serif;
+--fb:'DM Sans',-apple-system,sans-serif;
+}
+[data-theme="dark"]{
+--bg:var(--g900);--bg2:#162118;--bg3:#0f1a11;
+--bgh:#081009;--tx:var(--g50);--tx2:var(--g200);
+--txm:var(--g400c);--brd:#1e3322;
+--sh:0 1px 3px rgba(0,0,0,.3);--sh2:0 10px 30px rgba(0,0,0,.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);line-height:1.5;
+min-height:100vh;transition:background var(--t),color var(--t);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.hdr{background:var(--bgh);padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top));
+position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06)}
+.hdr-in{display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto}
+.logo{font-family:var(--fd);font-size:1.6rem;color:#fff;letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.hdr-act{display:flex;gap:8px;align-items:center}
+.ib{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.15);
+background:rgba(255,255,255,.08);color:#fff;font-size:1rem;
+display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--t)}
+.ib:hover{background:rgba(255,255,255,.15)}
+.btabs{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);
+border-top:1px solid var(--brd);padding-bottom:max(6px,env(safe-area-inset-bottom));
+z-index:100;display:flex;justify-content:space-around}
+.btab{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;
+padding:7px 2px;border:none;background:transparent;color:var(--txm);
+font-family:var(--fb);font-size:.6rem;font-weight:600;cursor:pointer;
+transition:color var(--t);letter-spacing:.03em;text-transform:uppercase}
+.btab .ti{font-size:1.2rem}.btab.act{color:var(--g500)}
+.mn{max-width:600px;margin:0 auto;padding:14px;padding-bottom:90px}
+.vw{display:none}.vw.act{display:block;animation:fu .3s ease}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.cd{background:var(--bg2);border-radius:var(--r);border:1px solid var(--brd);
+padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
+.ct{font-family:var(--fd);font-size:1.2rem;margin-bottom:14px}
+.cs{font-size:.72rem;color:var(--txm);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:10px}
+.ff{margin-bottom:14px}
+.fl{display:block;font-size:.75rem;font-weight:600;color:var(--tx2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.fi{width:100%;padding:11px 13px;border:2px solid var(--brd);border-radius:var(--rs);
+background:var(--bg3);color:var(--tx);font-family:var(--fb);font-size:.95rem;transition:border-color var(--t)}
+.fi:focus{outline:none;border-color:var(--g500)}.fi::placeholder{color:var(--txm)}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238a9484' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 4 3.5-4H4.5z'/%3E%3C/svg%3E");
+background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;padding-right:36px}
+.stp{display:flex;align-items:center;gap:14px}
+.stp-b{width:42px;height:42px;border-radius:50%;border:2px solid var(--brd);background:var(--bg3);color:var(--tx);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--t);font-weight:600}
+.stp-b:hover{border-color:var(--g500);color:var(--g500)}
+.stp-v{font-size:1.6rem;font-weight:700;min-width:36px;text-align:center;font-family:var(--fd)}
+.pi-r{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pi-n{width:28px;height:28px;border-radius:50%;background:var(--g500);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.pi-r .fi{flex:1;padding:9px 11px}
+.bp{width:100%;padding:15px;border:none;border-radius:var(--rs);background:var(--g600);color:#fff;font-family:var(--fb);font-size:.95rem;font-weight:700;cursor:pointer;transition:all var(--t);letter-spacing:.02em}
+.bp:hover{background:var(--g700)}.bp:active{transform:scale(.98)}
+.bp:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.bs{padding:9px 18px;border:2px solid var(--brd);border-radius:var(--rs);background:var(--bg3);color:var(--tx);font-family:var(--fb);font-size:.82rem;font-weight:600;cursor:pointer;transition:all var(--t)}
+.bs:hover{border-color:var(--g500)}
+
+.api-bar{display:flex;gap:8px;align-items:center}.api-bar .fi{flex:1;font-size:.82rem;padding:9px 11px}
+.api-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.api-dot.ok{background:var(--g400)}.api-dot.no{background:var(--red)}
+.api-status{font-size:.72rem;color:var(--txm);margin-top:4px}
+.dh{background:linear-gradient(135deg,var(--g700),var(--g800));color:#fff;border-radius:var(--r);padding:18px;margin-bottom:14px;text-align:center}
+.dr{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;opacity:.7;margin-bottom:3px}
+.dp{font-family:var(--fd);font-size:1.4rem;margin-bottom:2px}
+.di{font-size:.75rem;opacity:.7}
+.dprog{margin-top:10px;background:rgba(255,255,255,.15);height:5px;border-radius:3px;overflow:hidden}
+.dprog-f{height:100%;background:var(--gold);border-radius:3px;transition:width .4s ease}
+.tb{display:flex;gap:5px;margin-bottom:10px;padding:9px 12px;background:var(--bg2);border-radius:var(--rs);border:1px solid var(--brd);font-size:.7rem;font-weight:600;overflow-x:auto;white-space:nowrap}
+.tt{padding:3px 9px;border-radius:18px;background:var(--bg3);color:var(--txm);flex-shrink:0}
+.tt.need{background:var(--g600);color:#fff}.tt.done{opacity:.4;text-decoration:line-through}
+.sb{position:relative;margin-bottom:10px}
+.sb input{width:100%;padding:9px 13px 9px 36px;border:2px solid var(--brd);border-radius:var(--rs);background:var(--bg3);color:var(--tx);font-family:var(--fb);font-size:.88rem}
+.sb input:focus{outline:none;border-color:var(--g500)}
+.sb::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:.8rem}
+.tsl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txm);font-weight:700;padding:10px 3px 6px;border-bottom:1px solid var(--brd);margin-bottom:6px;position:sticky;top:0;background:var(--bg);z-index:5}
+.gi{display:flex;align-items:center;gap:11px;padding:11px;border-radius:var(--rs);border:1.5px solid var(--brd);margin-bottom:6px;cursor:pointer;transition:all var(--t);background:var(--bg2)}
+.gi:hover{border-color:var(--g400)}.gi:active{transform:scale(.98)}
+.gi.pk{opacity:.3;pointer-events:none;border-style:dashed}
+.gi.un{opacity:.35;pointer-events:none}
+.gav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;color:#fff;background-size:cover;background-position:center}
+.gi.pk .gav{opacity:.5}
+.gin{flex:1;min-width:0}
+.gn{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm{font-size:.73rem;color:var(--txm)}
+.gf{display:flex;gap:3px;margin-top:3px}
+.gf span{font-size:.6rem;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--bg3);color:var(--txm)}
+.gf .win{background:rgba(34,136,74,.15);color:var(--g500)}
+.gf .mc{background:rgba(239,68,68,.12);color:var(--red)}
+.gpi{font-size:.65rem;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.04em}
+.gi.pk .gpi{color:var(--txm)}
+.rfab{position:fixed;bottom:72px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--g600);color:#fff;border:none;font-size:1.1rem;box-shadow:var(--sh2);cursor:pointer;z-index:90;display:none;align-items:center;justify-content:center}
+.rfab.sh{display:flex}
+.rpnl{position:fixed;bottom:0;left:0;right:0;max-height:55vh;background:var(--bg2);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -4px 30px rgba(0,0,0,.15);z-index:200;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:18px;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+.rpnl.op{transform:translateY(0)}
+.rh{width:36px;height:4px;background:var(--g200);border-radius:2px;margin:0 auto 14px}
+.rps{margin-bottom:14px}.rpn{font-weight:700;font-size:.82rem;margin-bottom:5px;color:var(--tx2)}
+.rg{font-size:.78rem;padding:3px 0;display:flex;justify-content:space-between}.rg .rr{color:var(--txm);font-size:.7rem}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s}
+.ov.op{opacity:1;pointer-events:auto}
+.li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--brd);cursor:pointer}
+.lr{font-family:var(--fd);font-size:1.3rem;min-width:28px;text-align:center}
+.lr1{color:var(--gold)}.lr2{color:var(--silver)}.lr3{color:var(--bronze)}
+.linf{flex:1}.lnm{font-weight:700;font-size:.95rem}.ld{font-size:.73rem;color:var(--txm)}
+.lsc{font-family:var(--fd);font-size:1.4rem;font-weight:700;min-width:46px;text-align:right}
+.su{color:var(--g500)}.so{color:var(--red)}.se{color:var(--txm)}
+.ds{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:3px}
+.db{padding:7px 16px;border:2px solid var(--brd);border-radius:28px;background:var(--bg3);color:var(--tx2);font-family:var(--fb);font-size:.78rem;font-weight:600;cursor:pointer;transition:all var(--t);white-space:nowrap;flex-shrink:0}
+.db.act{background:var(--g600);color:#fff;border-color:var(--g600)}
+.sg{padding:12px 0;border-bottom:1px solid var(--brd)}
+.sgh{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.sgn{font-weight:700;font-size:.9rem}.sgo{font-size:.68rem;color:var(--txm)}.sgt{font-weight:800;font-size:1rem}
+.scr{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sc{padding:5px 10px;border-radius:18px;border:1.5px solid var(--brd);background:var(--bg3);color:var(--tx2);font-size:.7rem;font-weight:600;cursor:pointer;transition:all var(--t)}
+.sc:hover{border-color:var(--g400)}
+.sc.sel{background:var(--g600);color:#fff;border-color:var(--g600)}
+.sc.sel.bog{background:var(--amber);border-color:var(--amber);color:#000}
+.sc.sel.dbl{background:var(--red);border-color:var(--red)}
+.sc.sel.trp{background:#991b1b;border-color:#991b1b}
+.tdg{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--brd)}
+.tdr{width:26px;height:26px;border-radius:50%;background:var(--g600);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700}
+.tdn{flex:1;font-weight:600;font-size:.85rem}
+.tdd{display:flex;gap:5px}
+.tdv{padding:2px 7px;border-radius:4px;font-size:.68rem;font-weight:700;background:var(--bg3);color:var(--txm)}
+.tdv.u{background:rgba(34,136,74,.15);color:var(--g500)}
+.tdv.o{background:rgba(239,68,68,.12);color:var(--red-l)}
+.sb2{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:18px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sb2.dr{background:rgba(34,136,74,.15);color:var(--g500)}
+.sb2.sc2{background:rgba(212,168,67,.15);color:var(--gold)}
+.sb2.cp{background:var(--bg3);color:var(--txm)}
+.sdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.sb2.dr .sdot{animation:pls 1.5s infinite}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.3}}
+.stbl{width:100%;border-collapse:collapse;margin-top:7px;font-size:.82rem}
+.stbl th{text-align:left;padding:7px 10px;background:var(--bg3);font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--txm)}
+.stbl td{padding:7px 10px;border-bottom:1px solid var(--brd)}
+.es{text-align:center;padding:40px 18px;color:var(--txm)}
+.esi{font-size:2.5rem;margin-bottom:10px}.est{font-family:var(--fd);font-size:1.1rem;color:var(--tx2);margin-bottom:3px}.esd{font-size:.82rem}
+.dov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;padding:18px}
+.dov.op{opacity:1;pointer-events:auto}
+.dlg{background:var(--bg2);border-radius:var(--r);padding:22px;max-width:320px;width:100%;box-shadow:var(--sh2)}
+.dlg h3{font-family:var(--fd);font-size:1.1rem;margin-bottom:6px}
+.dlg p{font-size:.85rem;color:var(--tx2);margin-bottom:18px}
+.da{display:flex;gap:9px}
+.da button{flex:1;padding:11px;border-radius:var(--rs);font-weight:700;cursor:pointer;font-family:var(--fb);font-size:.88rem;border:none}
+.dc{background:var(--bg3);color:var(--tx);border:1px solid var(--brd)!important}
+.dk{background:var(--g600);color:#fff}
+.tst{position:fixed;top:75px;left:50%;transform:translateX(-50%) translateY(-18px);background:var(--g800);color:#fff;padding:10px 22px;border-radius:28px;font-size:.82rem;font-weight:600;z-index:300;box-shadow:var(--sh2);opacity:0;transition:all .3s ease;pointer-events:none;white-space:nowrap}
+.tst.sh{opacity:1;transform:translateX(-50%) translateY(0)}
+.tst.er{background:var(--red)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.info{background:rgba(34,136,74,.08);border:1px solid rgba(34,136,74,.2);border-radius:var(--rs);padding:12px;font-size:.82rem;color:var(--tx2);margin-bottom:14px}
+.info b{color:var(--tx)}
+.bonus-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:var(--rs);margin-bottom:6px}
+.bonus-row.active{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.3)}
+.bonus-lbl{font-size:.82rem;font-weight:600}.bonus-val{font-family:var(--fd);font-size:1rem;font-weight:700}
+.mc-toggle{display:flex;gap:6px;margin-top:4px}
+.mc-toggle button{padding:3px 10px;border-radius:14px;border:1.5px solid var(--brd);background:var(--bg3);color:var(--txm);font-size:.68rem;font-weight:600;cursor:pointer}
+.mc-toggle button.sel{background:var(--red);color:#fff;border-color:var(--red)}
+@media(min-width:500px){.gi{padding:13px}}
+</style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="header">
-            <div class="header-content">
-                <div>
-                    <div class="logo">golfr</div>
-                    <div class="header-subtitle">Fantasy Golf League 2026</div>
-                </div>
-                <div class="header-actions">
-                    <div class="sync-status">
-                        <div class="sync-dot"></div>
-                        <span id="syncStatus">Synced</span>
-                    </div>
-                    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
-                        <span id="themeIcon">🌙</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+<header class="hdr"><div class="hdr-in">
+<div class="logo">G<span>O</span>LFR</div>
+<div class="hdr-act">
+<button class="ib" id="settingsBtn" title="Settings">⚙️</button>
+<button class="ib" id="themeBtn" title="Theme">🌙</button>
+</div>
+</div></header>
+<div class="tst" id="toast"></div>
+<div class="ov" id="rosterOv"></div>
+<button class="rfab" id="rosterFab">👥</button>
+<div class="rpnl" id="rosterPnl"><div class="rh"></div><div id="rosterC"></div></div>
+<div class="dov" id="dlgOv"><div class="dlg">
+<h3 id="dlgT">Confirm</h3><p id="dlgM">Are you sure?</p>
+<div class="da"><button class="dc" id="dlgNo">Cancel</button><button class="dk" id="dlgYes">Confirm</button></div>
+</div></div>
+<main class="mn">
+<div class="vw" id="vSettings">
+<div class="cd">
+<div class="ct">API Settings</div>
+<div class="info"><b>Free tier:</b> Sign up at <b>rapidapi.com</b>, subscribe to <b>"Live Golf Data"</b> by Slash Golf, then paste your API key below.</div>
+<div class="ff"><label class="fl">RapidAPI Key</label>
+<div class="api-bar"><input class="fi" id="apiKeyInput" type="password" placeholder="Paste your RapidAPI key…">
+<button class="bs" id="apiTestBtn">Test</button></div>
+<div class="api-status" id="apiStatus">Not configured</div></div>
+<button class="bp" id="apiSaveBtn">Save Key</button>
+</div>
+</div>
+<div class="vw act" id="vSetup">
+<div class="cd">
+<div class="ct">New League</div>
+<div class="ff"><label class="fl">Tournament</label>
+<select class="fi" id="tournSelect"><option value="">Loading tournaments…</option></select></div>
+<div id="tournInfo" style="display:none" class="info"></div>
+<div class="ff"><label class="fl">League Name</label>
+<input class="fi" id="leagueName" type="text" placeholder="e.g. Sunday Skins Club"></div>
+<div class="ff"><label class="fl">Players</label>
+<div class="stp"><button class="stp-b" id="plM">−</button><div class="stp-v" id="plC">2</div><button class="stp-b" id="plP">+</button></div></div>
+<div class="ff"><label class="fl">Player Names</label><div id="plInputs"></div></div>
+<button class="bp" id="fetchFieldBtn" style="margin-bottom:10px">📡 Fetch Tournament Field</button>
+<div id="fieldStatus" style="display:none" class="info"></div>
+<button class="bp" id="startBtn">Start Draft ⛳</button>
+</div>
+</div>
+<div class="vw" id="vDraft">
+<div class="dh" id="draftHdr">
+<div class="dr" id="dRound">Round 1 of 7</div>
+<div class="dp" id="dPicker">—</div>
+<div class="di" id="dInfo">Pick 0 of 0</div>
+<div class="dprog"><div class="dprog-f" id="dProg"></div></div>
+</div>
+<div class="tb" id="tierBar"></div>
+<div class="sb"><input type="text" id="gSearch" placeholder="Search golfers…"></div>
+<div id="gList"></div>
+</div>
+<div class="vw" id="vBoard"><div id="boardC">
+<div class="es"><div class="esi">🏌️</div><div class="est">No active league</div><div class="esd">Set up a league and draft first</div></div>
+</div></div>
+<div class="vw" id="vScores"><div id="scoresC">
+<div class="es"><div class="esi">📊</div><div class="est">No scores yet</div><div class="esd">Complete the draft to start scoring</div></div>
+</div></div>
+<div class="vw" id="vRules">
+<div class="cd">
+<div class="ct">How It Works</div>
+<div style="margin-bottom:18px">
+<h3 style="font-family:var(--fd);font-size:1rem;margin-bottom:6px">The Draft</h3>
+<p style="font-size:.85rem;color:var(--tx2)">Each player drafts <b>7 golfers</b> in a snake draft:</p>
+<ul style="padding-left:18px;margin-top:6px;font-size:.85rem;color:var(--tx2);line-height:1.8">
+<li><b>4 golfers</b> from the Top 30 (OWGR)</li>
+<li><b>2 golfers</b> from Ranks 31–50</li>
+<li><b>1 wildcard</b> from Rank 51+</li>
+</ul>
+<p style="font-size:.82rem;color:var(--tx2);margin-top:6px">Snake draft: order reverses each round. 2 players = alternating.</p>
+</div>
+<div style="margin-bottom:18px">
+<h3 style="font-family:var(--fd);font-size:1rem;margin-bottom:6px">Scoring</h3>
+<p style="font-size:.85rem;color:var(--tx2)">Over 4 days, each golfer scores relative to par:</p>
+<table class="stbl"><thead><tr><th>Result</th><th>Points</th></tr></thead><tbody>
+<tr><td>Eagle 🦅</td><td class="su" style="font-weight:700">−2</td></tr>
+<tr><td>Birdie 🐦</td><td class="su" style="font-weight:700">−1</td></tr>
+<tr><td>Par</td><td>0</td></tr>
+<tr><td>Bogey</td><td class="so" style="font-weight:700">+1</td></tr>
+<tr><td>Double Bogey</td><td class="so" style="font-weight:700">+2</td></tr>
+<tr><td>Triple Bogey+</td><td class="so" style="font-weight:700">+3 (or worse)</td></tr>
+</tbody></table>
+</div>
+<div style="margin-bottom:18px">
+<h3 style="font-family:var(--fd);font-size:1rem;margin-bottom:6px">Bonus Rules</h3>
+<table class="stbl"><thead><tr><th>Bonus</th><th>Points</th></tr></thead><tbody>
+<tr><td>🎯 Hole-in-One (any golfer)</td><td class="su" style="font-weight:700">−10</td></tr>
+<tr><td>🏆 Your golfer wins the tournament</td><td class="su" style="font-weight:700">−15</td></tr>
+<tr><td>✂️ Top 6 pick misses the cut</td><td class="so" style="font-weight:700">+10</td></tr>
+</tbody></table>
+<p style="font-size:.82rem;color:var(--txm);margin-top:8px">Top 6 = your first 6 picks (4 Top-30 + 2 Mid-tier). Wild card is exempt from the missed cut penalty.</p>
+</div>
+<div>
+<h3 style="font-family:var(--fd);font-size:1rem;margin-bottom:6px">Winning</h3>
+<p style="font-size:.85rem;color:var(--tx2)">Total = sum of all 7 golfers' scores across 4 days + bonuses.<br><b>Lowest total wins</b> — just like real golf.</p>
+</div>
+</div>
+</div>
+</main>
+<nav class="btabs">
+<button class="btab act" data-v="vSetup"><span class="ti">⛳</span>Setup</button>
+<button class="btab" data-v="vDraft"><span class="ti">🎯</span>Draft</button>
+<button class="btab" data-v="vBoard"><span class="ti">🏆</span>Board</button>
+<button class="btab" data-v="vScores"><span class="ti">📊</span>Scores</button>
+<button class="btab" data-v="vRules"><span class="ti">📖</span>Rules</button>
+</nav>
 
-        <div class="tournament-selector">
-            <div class="tournament-selector-content">
-                <div class="tournament-select-wrapper">
-                    <label for="tournamentSelect">Select PGA Tour Tournament:</label>
-                    <select id="tournamentSelect">
-                        <option value="">Loading tournaments...</option>
-                    </select>
-                </div>
-                <div class="header-btn-group">
-                    <button class="btn btn-secondary" id="viewRankingsBtn">👁️ View Rankings</button>
-                    <button class="btn btn-primary" id="updateRankingsBtn">✏️ Update Rankings</button>
-                </div>
-            </div>
-        </div>
+<script>
+// GOLFR v3.0 — Full Rewrite
+const API_HOST='live-golf-data.p.rapidapi.com';
+const TIER_RULES=[{label:'Top 30',min:1,max:30,required:4},{label:'31–50',min:31,max:50,required:2},{label:'51+',min:51,max:999,required:1}];
+const PICKS_PP=7;
+const CURRENT_YEAR='2026';
 
-        <nav class="nav-tabs">
-            <div class="nav-tabs-content">
-                <button class="tab active" data-tab="setup">Setup</button>
-                <button class="tab" data-tab="draft">Draft</button>
-                <button class="tab" data-tab="leaderboard">Leaderboard</button>
-                <button class="tab" data-tab="rules">Rules</button>
-            </div>
-        </nav>
+const FALLBACK_GOLFERS=[
+{n:'Scottie Scheffler',c:'🇺🇸',r:1,f:['Win','T3','T5']},{n:'Xander Schauffele',c:'🇺🇸',r:2,f:['T2','Win','T8']},
+{n:'Rory McIlroy',c:'🇬🇧',r:3,f:['T5','T12','T3']},{n:'Collin Morikawa',c:'🇺🇸',r:4,f:['T8','T6','Win']},
+{n:'Ludvig Åberg',c:'🇸🇪',r:5,f:['T4','T10','T2']},{n:'Wyndham Clark',c:'🇺🇸',r:6,f:['T15','T5','T20']},
+{n:'Jon Rahm',c:'🇪🇸',r:7,f:['T7','T3','MC']},{n:'Viktor Hovland',c:'🇳🇴',r:8,f:['T10','T18','T6']},
+{n:'Patrick Cantlay',c:'🇺🇸',r:9,f:['T12','T8','T15']},{n:'Hideki Matsuyama',c:'🇯🇵',r:10,f:['Win','T20','T4']},
+{n:'Tommy Fleetwood',c:'🇬🇧',r:11,f:['T8','T12','T25']},{n:'Shane Lowry',c:'🇮🇪',r:12,f:['T3','T15','T10']},
+{n:'Tony Finau',c:'🇺🇸',r:13,f:['T20','T5','T12']},{n:'Sahith Theegala',c:'🇺🇸',r:14,f:['T6','T3','T8']},
+{n:'Sam Burns',c:'🇺🇸',r:15,f:['MC','T10','T4']},{n:'Bryson DeChambeau',c:'🇺🇸',r:16,f:['Win','T8','T15']},
+{n:'Sungjae Im',c:'🇰🇷',r:17,f:['T12','T20','T6']},{n:'Jordan Spieth',c:'🇺🇸',r:18,f:['MC','T25','T8']},
+{n:'Tom Kim',c:'🇰🇷',r:19,f:['T5','T3','T15']},{n:'Matt Fitzpatrick',c:'🇬🇧',r:20,f:['T18','T8','MC']},
+{n:'Justin Thomas',c:'🇺🇸',r:21,f:['T10','MC','T12']},{n:'Cameron Smith',c:'🇦🇺',r:22,f:['T8','T15','T5']},
+{n:'Brooks Koepka',c:'🇺🇸',r:23,f:['T20','T3','T10']},{n:'Max Homa',c:'🇺🇸',r:24,f:['MC','T12','T8']},
+{n:'Russell Henley',c:'🇺🇸',r:25,f:['T15','T6','T20']},{n:'Tyrrell Hatton',c:'🇬🇧',r:26,f:['T5','T25','T3']},
+{n:'Jason Day',c:'🇦🇺',r:27,f:['T12','T8','T30']},{n:'Sepp Straka',c:'🇦🇹',r:28,f:['T10','T20','T5']},
+{n:'Keegan Bradley',c:'🇺🇸',r:29,f:['T8','T15','T12']},{n:'Corey Conners',c:'🇨🇦',r:30,f:['T20','T10','T6']},
+{n:'Will Zalatoris',c:'🇺🇸',r:31,f:['T5','MC','T12']},{n:'Matthieu Pavon',c:'🇫🇷',r:32,f:['T15','T8','T20']},
+{n:'Billy Horschel',c:'🇺🇸',r:33,f:['T25','T12','T8']},{n:'Cameron Young',c:'🇺🇸',r:34,f:['MC','T5','T15']},
+{n:'Brian Harman',c:'🇺🇸',r:35,f:['T10','T20','T8']},{n:'Si Woo Kim',c:'🇰🇷',r:36,f:['T12','MC','T5']},
+{n:'Akshay Bhatia',c:'🇺🇸',r:37,f:['T3','T15','T10']},{n:'Justin Rose',c:'🇬🇧',r:38,f:['T20','T8','T25']},
+{n:'Aaron Rai',c:'🇬🇧',r:39,f:['T6','T12','T18']},{n:'Min Woo Lee',c:'🇦🇺',r:40,f:['T15','T5','MC']},
+{n:'Davis Thompson',c:'🇺🇸',r:41,f:['T8','T20','T12']},{n:'Nick Dunlap',c:'🇺🇸',r:42,f:['T10','T3','T25']},
+{n:'Denny McCarthy',c:'🇺🇸',r:43,f:['MC','T15','T8']},{n:'Lucas Glover',c:'🇺🇸',r:44,f:['T20','T10','T5']},
+{n:'Taylor Pendrith',c:'🇨🇦',r:45,f:['T12','MC','T15']},{n:'Eric Cole',c:'🇺🇸',r:46,f:['T8','T25','T10']},
+{n:'Chris Kirk',c:'🇺🇸',r:47,f:['T5','T12','T20']},{n:'Nick Taylor',c:'🇨🇦',r:48,f:['T18','T8','MC']},
+{n:'Byeong Hun An',c:'🇰🇷',r:49,f:['T10','T20','T6']},{n:'Emiliano Grillo',c:'🇦🇷',r:50,f:['T15','T5','T12']},
+{n:'Stephan Jaeger',c:'🇩🇪',r:51,f:['T20','T8','T25']},{n:'Adam Hadwin',c:'🇨🇦',r:52,f:['MC','T10','T15']},
+{n:'Harris English',c:'🇺🇸',r:53,f:['T12','T20','T5']},{n:'Mackenzie Hughes',c:'🇨🇦',r:54,f:['T8','MC','T10']},
+{n:'Alex Noren',c:'🇸🇪',r:55,f:['T15','T12','T25']},{n:'Christiaan Bezuidenhout',c:'🇿🇦',r:56,f:['T5','T18','T8']},
+{n:'Maverick McNealy',c:'🇺🇸',r:57,f:['MC','T10','T20']},{n:'J.T. Poston',c:'🇺🇸',r:58,f:['T12','T5','T15']},
+{n:'Seamus Power',c:'🇮🇪',r:59,f:['T8','T25','MC']},{n:'Tom Hoge',c:'🇺🇸',r:60,f:['T20','T12','T8']},
+{n:'Ryan Fox',c:'🇳🇿',r:61,f:['T10','MC','T15']},{n:'Thomas Detry',c:'🇧🇪',r:62,f:['T5','T20','T10']},
+{n:'Rickie Fowler',c:'🇺🇸',r:71,f:['MC','T25','T15']},{n:'Adam Scott',c:'🇦🇺',r:72,f:['T12','T8','T20']},
+{n:'Dustin Johnson',c:'🇺🇸',r:73,f:['T15','MC','T10']},{n:'Phil Mickelson',c:'🇺🇸',r:90,f:['MC','T30','MC']}
+].map(g=>({id:'g'+g.r,name:g.n,country:g.c,rank:g.r,form:g.f||['—','—','—']}));
 
-        <main class="main-content">
-            <section id="setup" class="content-section active">
-                <div class="card">
-                    <div class="card-header">
-                        <div>
-                            <h2 class="card-title">Tournament Setup</h2>
-                            <p class="card-subtitle">Configure your fantasy golf league</p>
-                        </div>
-                    </div>
+const FALLBACK_TOURNAMENTS=[
+{id:'016',name:'The Sentry',dates:'Jan 2–5',tournId:'016'},
+{id:'006',name:'Sony Open in Hawaii',dates:'Jan 9–12',tournId:'006'},
+{id:'003',name:'WM Phoenix Open',dates:'Feb 6–9',tournId:'003'},
+{id:'005',name:'AT&T Pebble Beach Pro-Am',dates:'Feb 13–16',tournId:'005'},
+{id:'007',name:'Genesis Invitational',dates:'Feb 20–23',tournId:'007'},
+{id:'011',name:'THE PLAYERS Championship',dates:'Mar 12–15',tournId:'011'},
+{id:'475',name:'The Masters 🏆',dates:'Apr 9–12',tournId:'475'},
+{id:'019',name:'PGA Championship 🏆',dates:'May 14–17',tournId:'019'},
+{id:'014',name:'U.S. Open 🏆',dates:'Jun 18–21',tournId:'014'},
+{id:'034',name:'The Open Championship 🏆',dates:'Jul 16–19',tournId:'034'}
+];
 
-                    <div class="form-group">
-                        <label class="form-label" for="tournamentName">Tournament Name</label>
-                        <input type="text" id="tournamentName" class="form-input" placeholder="e.g., The Masters 2026">
-                    </div>
+const S={theme:'light',apiKey:'',apiOk:false,phase:'setup',numPl:2,players:[],leagueName:'',
+tournaments:FALLBACK_TOURNAMENTS,selectedTourn:null,golfers:FALLBACK_GOLFERS,allGolfers:FALLBACK_GOLFERS,
+fieldFetched:false,dOrder:[],pickIdx:0,picks:{},pickedIds:new Set(),
+scores:{},curDay:1,missedCuts:{},holeInOnes:{},winner:''};
 
-                    <div class="form-group">
-                        <label class="form-label">Scoring Mode</label>
-                        <div class="scoring-modes">
-                            <label class="scoring-mode">
-                                <input type="radio" name="scoringMode" value="standard" checked>
-                                <div class="scoring-mode-card">
-                                    <div class="scoring-mode-title">⛳ Standard</div>
-                                    <div class="scoring-mode-desc">Sum of all golfer scores</div>
-                                </div>
-                            </label>
-                            <label class="scoring-mode">
-                                <input type="radio" name="scoringMode" value="bestball">
-                                <div class="scoring-mode-card">
-                                    <div class="scoring-mode-title">🏆 Best Ball</div>
-                                    <div class="scoring-mode-desc">Only count best 5 scores</div>
-                                </div>
-                            </label>
-                            <label class="scoring-mode">
-                                <input type="radio" name="scoringMode" value="matchplay">
-                                <div class="scoring-mode-card">
-                                    <div class="scoring-mode-title">⚔️ Match Play</div>
-                                    <div class="scoring-mode-desc">Head-to-head battles</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+const $=id=>document.getElementById(id);
+const $$=s=>document.querySelectorAll(s);
+function tier(r){return r<=30?0:r<=50?1:2}
+function tierLbl(r){return r<=30?'Top 30':r<=50?'31–50':'51+'}
+function plTierCounts(p){const ids=S.picks[p]||[],c=[0,0,0];ids.forEach(id=>{const g=S.golfers.find(x=>x.id===id);if(g)c[tier(g.rank)]++});return c}
+function fmtScore(n){return n===0?'E':n>0?'+'+n:''+n}
+function sCls(n){return n<0?'su':n>0?'so':'se'}
+function snake(np,rnds){const o=[];for(let r=0;r<rnds;r++){const f=[...Array(np).keys()];o.push(...(r%2===0?f:[...f].reverse()))}return o}
+function avatarBg(r){return r<=10?'#1e6b2d':r<=20?'#1a4a23':r<=30?'#14351a':r<=50?'#6b21a8':r<999?'#b45309':'#666'}
+function getInitials(name){return name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}
+let tt;function toast(m,e){const el=$('toast');el.textContent=m;el.className='tst sh'+(e?' er':'');clearTimeout(tt);tt=setTimeout(()=>el.className='tst',2500)}
+function confirm(t,m){return new Promise(r=>{$('dlgT').textContent=t;$('dlgM').textContent=m;$('dlgOv').classList.add('op');const c=v=>{$('dlgOv').classList.remove('op');r(v)};$('dlgNo').onclick=()=>c(false);$('dlgYes').onclick=()=>c(true)})}
+function toggleTheme(){S.theme=S.theme==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',S.theme);$('themeBtn').textContent=S.theme==='light'?'🌙':'☀️';try{localStorage.setItem('golfr_theme',S.theme)}catch(e){}}
+function loadTheme(){try{const s=localStorage.getItem('golfr_theme');if(s){S.theme=s;document.documentElement.setAttribute('data-theme',s);$('themeBtn').textContent=s==='light'?'🌙':'☀️'}}catch(e){}}
+function switchView(v){$$('.vw').forEach(x=>x.classList.remove('act'));$(v).classList.add('act');$$('.btab').forEach(t=>t.classList.toggle('act',t.dataset.v===v));$('rosterFab').classList.toggle('sh',v==='vDraft'&&S.phase==='drafting')}
 
-                    <div class="form-group">
-                        <label class="form-label" for="numPlayers">Number of Players (2-8)</label>
-                        <input type="number" id="numPlayers" class="form-input" min="2" max="8" value="4">
-                    </div>
+// API
+async function apiCall(path,params={}){if(!S.apiKey)throw new Error('No API key');const url=new URL('https://'+API_HOST+path);Object.entries(params).forEach(([k,v])=>url.searchParams.set(k,String(v)));const res=await fetch(url,{headers:{'x-rapidapi-host':API_HOST,'x-rapidapi-key':S.apiKey}});if(!res.ok)throw new Error('HTTP '+res.status);return await res.json()}
+async function testApi(){$('apiTestBtn').innerHTML='<span class="spin"></span>';try{const d=await apiCall('/schedule',{orgId:'1',year:CURRENT_YEAR});S.apiOk=true;$('apiStatus').innerHTML='<span class="api-dot ok"></span> Connected — '+( d.schedule?.length||0)+' tournaments';toast('API connected!')}catch(e){S.apiOk=false;$('apiStatus').innerHTML='<span class="api-dot no"></span> Failed: '+e.message;toast('API test failed',true)}$('apiTestBtn').textContent='Test'}
+function saveApiKey(){S.apiKey=$('apiKeyInput').value.trim();try{localStorage.setItem('golfr_apikey',S.apiKey)}catch(e){}if(S.apiKey)testApi();else{S.apiOk=false;$('apiStatus').textContent='Not configured'}}
+function loadApiKey(){try{S.apiKey=localStorage.getItem('golfr_apikey')||''}catch(e){}$('apiKeyInput').value=S.apiKey;if(S.apiKey)$('apiStatus').innerHTML='<span class="api-dot ok"></span> Key saved'}
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function parseApiDate(s){if(!s)return '';const p=s.split('T')[0].split('-');return p.length===3?MONTHS[parseInt(p[1])-1]+' '+parseInt(p[2]):''}
+async function fetchSchedule(){if(!S.apiKey)return;try{const d=await apiCall('/schedule',{orgId:'1',year:CURRENT_YEAR});if(d?.schedule?.length){S.tournaments=d.schedule.map(t=>{const s=parseApiDate(t.date?.start),e=parseApiDate(t.date?.end);return{id:t.tournId,name:t.name,dates:s&&e?s+' – '+e:'',tournId:t.tournId,course:t.courseName,location:t.location}});renderTournaments();toast(d.schedule.length+' tournaments loaded!')}}catch(e){console.log('Schedule failed:',e.message)}}
+async function fetchRankings(){if(!S.apiKey)return null;try{const d=await apiCall('/stats',{year:CURRENT_YEAR,statId:'186'});if(d?.rankings?.length)return d.rankings}catch(e){}return null}
 
-                    <div class="form-group">
-                        <label class="form-label">Player Names</label>
-                        <div id="playersInputContainer" class="players-input-grid"></div>
-                    </div>
+async function fetchField(tournId){if(!S.apiKey||!tournId){toast('Set up API key in Settings first',true);return}
+$('fetchFieldBtn').innerHTML='📡 Fetching… <span class="spin"></span>';
+try{const data=await apiCall('/tournament',{orgId:'1',tournId,year:CURRENT_YEAR});
+let rawPlayers=null;for(const key of['players','results','field','entrants','entries']){if(Array.isArray(data[key])&&data[key].length>0){rawPlayers=data[key];break}}
+if(!rawPlayers){for(const[key,val]of Object.entries(data)){if(Array.isArray(val)&&val.length>5&&val[0]&&(val[0].firstName||val[0].fullName)){rawPlayers=val;break}}}
+if(!rawPlayers||!rawPlayers.length)throw new Error('No player data');
+const rankings=await fetchRankings();const rankLookup={};
+if(rankings)rankings.forEach(r=>{rankLookup[(r.fullName||r.firstName+' '+r.lastName).toLowerCase().trim()]=parseInt(r.rank)});
+const fieldGolfers=rawPlayers.map((p,i)=>{const name=(p.fullName||((p.firstName||'')+' '+(p.lastName||''))).trim();
+const owgr=rankLookup[name.toLowerCase()]||parseInt(p.owgr||p.rank||p.worldRanking||999);
+return{id:String(p.playerId||p.id||'p'+i),name,country:p.country||'🏳️',rank:owgr,apiId:p.playerId||p.id,form:['—','—','—']}
+}).filter(g=>g.name.length>1).sort((a,b)=>a.rank-b.rank);
+if(fieldGolfers.length>0){S.golfers=fieldGolfers;S.fieldFetched=true;
+$('fieldStatus').style.display='block';$('fieldStatus').innerHTML='✅ <b>'+fieldGolfers.length+'</b> golfers loaded with live OWGR rankings.';
+toast(fieldGolfers.length+' golfers loaded!')}else throw new Error('No valid players')
+}catch(e){$('fieldStatus').style.display='block';$('fieldStatus').innerHTML='⚠️ '+e.message+'. Using fallback data.';S.golfers=[...FALLBACK_GOLFERS];S.fieldFetched=false}
+$('fetchFieldBtn').textContent='📡 Fetch Tournament Field'}
 
-                    <button class="btn btn-primary" id="startDraftBtn" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
-                        🚀 Start Draft
-                    </button>
-                </div>
-            </section>
+async function fetchLeaderboard(tournId){if(!S.apiKey||!tournId)return null;try{return await apiCall('/leaderboard',{orgId:'1',tournId,year:CURRENT_YEAR})}catch(e){return null}}
 
-            <section id="draft" class="content-section">
-                <div class="draft-container">
-                    <div class="ai-assistant">
-                        <div class="ai-title">
-                            <span>🤖</span>
-                            <span>AI Draft Assistant</span>
-                        </div>
-                        <div id="aiSuggestions"></div>
-                    </div>
+// SETUP
+function renderTournaments(){const sel=$('tournSelect');sel.innerHTML='<option value="">Select a tournament…</option>';
+S.tournaments.forEach(t=>{sel.innerHTML+='<option value="'+(t.tournId||t.id)+'">'+t.name+(t.dates?' — '+t.dates:'')+'</option>'})}
+function onTournSelect(e){const val=e.target.value;const t=S.tournaments.find(x=>(x.tournId||x.id)===val);S.selectedTourn=t||null;S.fieldFetched=false;$('fieldStatus').style.display='none';
+if(t){$('leagueName').value=t.name;if(t.course||t.location){$('tournInfo').style.display='block';$('tournInfo').innerHTML='📍 '+(t.course||'')+' '+(t.location?'· '+t.location:'')}else $('tournInfo').style.display='none'}else $('tournInfo').style.display='none'}
+function renderPlInputs(){const c=$('plInputs');c.innerHTML='';for(let i=0;i<S.numPl;i++){c.innerHTML+='<div class="pi-r"><div class="pi-n">'+(i+1)+'</div><input class="fi player-ni" type="text" placeholder="Player '+(i+1)+'" value="'+(S.players[i]||'')+'" data-idx="'+i+'"></div>'}
+c.querySelectorAll('.player-ni').forEach(inp=>{inp.addEventListener('input',e=>{S.players[+e.target.dataset.idx]=e.target.value})})}
+function updatePlCount(d){S.numPl=Math.max(2,Math.min(8,S.numPl+d));$('plC').textContent=S.numPl;renderPlInputs()}
 
-                    <div class="draft-timer">
-                        <div class="current-picker">Current Pick: <span id="currentPicker">-</span></div>
-                        <div class="timer-display" id="timerDisplay">1:30</div>
-                        <div>Time remaining for this pick</div>
-                    </div>
+// DRAFT
+function startDraft(){const players=[];for(let i=0;i<S.numPl;i++)players.push(S.players[i]?.trim()||('Player '+(i+1)));
+if(new Set(players).size<players.length){toast('Each player needs a unique name',true);return}
+if(S.golfers.length<players.length*PICKS_PP){toast('Not enough golfers',true);return}
+S.players=players;S.leagueName=$('leagueName').value.trim()||'GOLFR League';
+S.phase='drafting';S.dOrder=snake(players.length,PICKS_PP);S.pickIdx=0;S.picks={};S.pickedIds=new Set();
+players.forEach(p=>S.picks[p]=[]);S.scores={};S.golfers.forEach(g=>{S.scores[g.id]={1:null,2:null,3:null,4:null}});
+S.curDay=1;S.missedCuts={};S.holeInOnes={};S.winner='';
+switchView('vDraft');renderDraft();toast('Draft started! Pass the phone 📱')}
 
-                    <div class="draft-main">
-                        <div class="draft-order">
-                            <div class="draft-order-title">Draft Order</div>
-                            <div id="draftOrderList"></div>
-                        </div>
+function renderDraft(){if(S.phase!=='drafting')return;
+const pi=S.dOrder[S.pickIdx],cp=S.players[pi],total=S.dOrder.length;
+const round=Math.floor(S.pickIdx/S.players.length)+1;
+$('dRound').textContent='Round '+round+' of '+PICKS_PP;
+$('dPicker').textContent=cp;$('dInfo').textContent='Pick '+(S.pickIdx+1)+' of '+total;
+$('dProg').style.width=(S.pickIdx/total*100)+'%';
+const counts=plTierCounts(cp);$('tierBar').innerHTML=TIER_RULES.map((t,i)=>{const rem=t.required-counts[i];return'<span class="tt '+(rem<=0?'done':'need')+'">'+t.label+': '+(rem>0?rem+' left':'✓')+'</span>'}).join('');
+renderGolferList(cp,$('gSearch').value)}
 
-                        <div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <div>
-                                        <h3 class="card-title">Available Golfers</h3>
-                                        <p class="card-subtitle">Select golfers for your team</p>
-                                    </div>
-                                    <div>
-                                        <input type="text" id="golferSearch" class="form-input" placeholder="Search golfers..." style="width: 300px;">
-                                    </div>
-                                </div>
-                                <div id="golferGrid" class="golfer-grid"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+function renderGolferList(cp,filter=''){const counts=plTierCounts(cp);
+const needed=new Set();TIER_RULES.forEach((t,i)=>{if(counts[i]<t.required)needed.add(i)});
+const q=filter.toLowerCase();
+const sections=[{label:'Top 30 — Elite',golfers:S.golfers.filter(g=>g.rank<=30)},
+{label:'31–50 — Contenders',golfers:S.golfers.filter(g=>g.rank>=31&&g.rank<=50)},
+{label:'51+ — Wildcards',golfers:S.golfers.filter(g=>g.rank>=51)}];
+let h='';sections.forEach(sec=>{const fg=q?sec.golfers.filter(g=>g.name.toLowerCase().includes(q)):sec.golfers;
+if(!fg.length)return;h+='<div class="tsl">'+sec.label+' ('+fg.filter(g=>!S.pickedIds.has(g.id)).length+' avail)</div>';
+fg.forEach(g=>{const pk=S.pickedIds.has(g.id),un=!pk&&!needed.has(tier(g.rank));
+const st=pk?'Drafted':un?'Tier full':'';const bg=avatarBg(g.rank);const ini=getInitials(g.name);
+const formHtml=(g.form||['—','—','—']).map(f=>'<span class="'+(f==='Win'?'win':f==='MC'?'mc':'')+'">'+f+'</span>').join('');
+h+='<div class="gi '+(pk?'pk':'')+' '+(un?'un':'')+'" '+((!pk&&!un)?'onclick="pickG(\''+g.id+'\')"':'')+'>'+
+'<div class="gav" style="background:'+bg+'">'+ini+'</div>'+
+'<div class="gin"><div class="gn">'+g.country+' '+g.name+'</div>'+
+'<div class="gm">#'+g.rank+' · '+tierLbl(g.rank)+'</div>'+
+'<div class="gf">'+formHtml+'</div></div>'+
+'<div class="gpi">'+st+'</div></div>'})});
+$('gList').innerHTML=h}
 
-            <section id="leaderboard" class="content-section">
-                <div class="card">
-                    <div class="card-header">
-                        <div>
-                            <h2 class="card-title">Leaderboard</h2>
-                            <p class="card-subtitle">Current standings</p>
-                        </div>
-                        <button class="btn btn-primary" id="refreshScoresBtn">🔄 Refresh Scores</button>
-                    </div>
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Player</th>
-                                <th>Score</th>
-                                <th>Golfers</th>
-                                <th>Today</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboardBody">
-                            <tr>
-                                <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                    No tournament in progress
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+async function pickG(gid){if(S.phase!=='drafting')return;
+const pi=S.dOrder[S.pickIdx],cp=S.players[pi];const g=S.golfers.find(x=>x.id===gid);if(!g)return;
+if(S.pickedIds.has(gid)){toast('Already drafted!',true);return}
+const t=tier(g.rank),counts=plTierCounts(cp);
+if(counts[t]>=TIER_RULES[t].required){toast(TIER_RULES[t].label+' tier full!',true);return}
+const yes=await confirm('Draft '+g.name+'?',cp+' picks '+g.name+' (#'+g.rank+') — '+tierLbl(g.rank));
+if(!yes)return;S.picks[cp].push(gid);S.pickedIds.add(gid);S.pickIdx++;
+toast(cp+' → '+g.name+' #'+g.rank);
+if(S.pickIdx>=S.dOrder.length){S.phase='scoring';toast('Draft complete! Enter scores 🏌️');
+renderBoard();renderScoring();switchView('vBoard');saveState();return}
+renderDraft();window.scrollTo({top:0,behavior:'smooth'});saveState()}
+window.pickG=pickG;
 
-            <section id="rules" class="content-section">
-                <div class="card">
-                    <h2 class="card-title" style="margin-bottom: 1.5rem;">📖 Golfr League Rules</h2>
-                    <h3 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🎯 Draft Format</h3>
-                    <p style="margin-bottom: 1rem;">Each player drafts 7 golfers total:</p>
-                    <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 2;">
-                        <li><strong>4 picks</strong> from the Top 30 World Rankings</li>
-                        <li><strong>2 picks</strong> from Ranks 30–50</li>
-                        <li><strong>1 Wildcard pick</strong> from veteran players</li>
-                    </ul>
-                </div>
-            </section>
-        </main>
-    </div>
+function toggleRoster(){$('rosterPnl').classList.toggle('op');$('rosterOv').classList.toggle('op');
+if($('rosterPnl').classList.contains('op'))renderRoster()}
+function renderRoster(){let h='';S.players.forEach(p=>{const ids=S.picks[p]||[];
+h+='<div class="rps"><div class="rpn">'+p+' ('+ids.length+'/'+PICKS_PP+')</div>';
+ids.forEach(id=>{const g=S.golfers.find(x=>x.id===id);if(g)h+='<div class="rg"><span>'+g.name+'</span><span class="rr">#'+g.rank+' · '+tierLbl(g.rank)+'</span></div>'});
+if(!ids.length)h+='<div class="rg" style="color:var(--txm)">No picks yet</div>';h+='</div>'});
+$('rosterC').innerHTML=h}
 
-    <script src="app.js"></script>
+// LEADERBOARD + SCORING WITH BONUSES
+function getPlTotal(p){const ids=S.picks[p]||[];let t=0;
+ids.forEach(id=>{for(let d=1;d<=4;d++){const s=S.scores[id]?.[d];if(s!=null)t+=s}});
+// Bonus: missed cut on top 6 (+10 each)
+ids.slice(0,6).forEach(id=>{if(S.missedCuts[id])t+=10});
+// Bonus: hole-in-one on any pick (-10 each)
+ids.forEach(id=>{if(S.holeInOnes[id])t-=10*S.holeInOnes[id]});
+// Bonus: winner (-15)
+ids.forEach(id=>{if(S.winner===id)t-=15});
+return t}
+
+function renderBoard(){if(S.phase==='setup'){$('boardC').innerHTML='<div class="es"><div class="esi">🏌️</div><div class="est">No active league</div><div class="esd">Set up a league first</div></div>';return}
+const standings=S.players.map(p=>({p,t:getPlTotal(p),ids:S.picks[p]||[]})).sort((a,b)=>a.t-b.t);
+const hasSc=Object.values(S.scores).some(d=>Object.values(d).some(v=>v!==null));
+const badge=S.phase==='drafting'?'<span class="sb2 dr"><span class="sdot"></span>Drafting</span>':S.phase==='scoring'?'<span class="sb2 sc2"><span class="sdot"></span>Live</span>':'<span class="sb2 cp">Complete</span>';
+let h='<div class="cd" style="padding-bottom:6px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div class="ct" style="margin-bottom:0">'+S.leagueName+'</div>'+badge+'</div>';
+standings.forEach((s,i)=>{const rc=i<3?'lr'+(i+1):'';
+const names=s.ids.map(id=>{const g=S.golfers.find(x=>x.id===id);return g?g.name.split(' ').pop():''}).join(', ');
+h+='<div class="li" onclick="showTeam(\''+s.p.replace(/'/g,"\\'")+'\')"><div class="lr '+rc+'">'+(i+1)+'</div><div class="linf"><div class="lnm">'+s.p+'</div><div class="ld">'+( names||'No picks')+'</div></div><div class="lsc '+sCls(s.t)+'">'+(hasSc?fmtScore(s.t):'–')+'</div></div>'});
+h+='</div>';
+if(S.phase==='scoring'&&S.apiKey&&S.selectedTourn?.tournId){h+='<button class="bp" style="margin-bottom:14px" onclick="pullLiveScores()">📡 Pull Live Scores</button>'}
+$('boardC').innerHTML=h}
+
+function showTeam(pn){const ids=S.picks[pn]||[];
+let h='<div class="cd"><div class="ct">'+pn+"'s Team</div>";
+ids.forEach((id,idx)=>{const g=S.golfers.find(x=>x.id===id);if(!g)return;
+let gt=0,dh='';for(let d=1;d<=4;d++){const s=S.scores[id]?.[d];if(s!=null){gt+=s;dh+='<span class="tdv '+(s<0?'u':s>0?'o':'')+'">'+fmtScore(s)+'</span>'}else dh+='<span class="tdv">–</span>'}
+const isTop6=idx<6;const mcBadge=S.missedCuts[id]?' <span style="color:var(--red);font-size:.65rem">✂️MC +10</span>':'';
+const hiBadge=S.holeInOnes[id]?' <span style="color:var(--gold);font-size:.65rem">🎯ACE -10</span>':'';
+const winBadge=S.winner===id?' <span style="color:var(--g500);font-size:.65rem">🏆WIN -15</span>':'';
+h+='<div class="tdg"><div class="tdr">'+g.rank+'</div><div class="tdn">'+g.name+(isTop6?' <span style="font-size:.6rem;color:var(--txm)">(Top 6)</span>':'')
++mcBadge+hiBadge+winBadge+'</div><div class="tdd">'+dh+'</div></div>'});
+const tot=getPlTotal(pn);h+='<div style="text-align:right;padding-top:10px;font-family:var(--fd);font-size:1.2rem" class="'+sCls(tot)+'">Total: '+fmtScore(tot)+'</div></div>';
+h+='<button class="bs" style="width:100%;margin-top:6px" onclick="renderBoard()">← Back</button>';$('boardC').innerHTML=h}
+window.showTeam=showTeam;window.renderBoard=renderBoard;window.switchView=switchView;
+
+async function pullLiveScores(){if(!S.selectedTourn?.tournId)return;toast('Fetching live scores…');
+try{const data=await fetchLeaderboard(S.selectedTourn.tournId);const lb=data?.leaderboard||data?.results||[];
+if(!lb.length){toast('No leaderboard data yet',true);return}
+lb.forEach(entry=>{const name=(entry.fullName||((entry.firstName||'')+' '+(entry.lastName||''))).trim().toLowerCase();
+const golfer=S.golfers.find(g=>g.name.toLowerCase()===name);
+if(golfer&&S.scores[golfer.id]){const rounds=entry.rounds||[];
+for(let r=0;r<Math.min(rounds.length,4);r++){const sc=rounds[r]?.score??rounds[r]?.toPar??null;
+if(sc!==null)S.scores[golfer.id][r+1]=parseInt(sc)}
+if(entry.status==='cut'||entry.madeCut===false)S.missedCuts[golfer.id]=true;
+if(entry.position===1||entry.position==='1')S.winner=golfer.id}});
+toast('Scores updated for '+lb.length+' golfers!');renderBoard();renderScoring();saveState()}catch(e){toast('Failed: '+e.message,true)}}
+window.pullLiveScores=pullLiveScores;
+
+// SCORING VIEW — with all score options + bonuses
+function renderScoring(){if(S.phase==='setup'||S.phase==='drafting'){$('scoresC').innerHTML='<div class="es"><div class="esi">📊</div><div class="est">No scores yet</div><div class="esd">Complete the draft first</div></div>';return}
+const allIds=new Set();Object.values(S.picks).forEach(ids=>ids.forEach(id=>allIds.add(id)));
+const drafted=S.golfers.filter(g=>allIds.has(g.id)).sort((a,b)=>a.rank-b.rank);
+const owners={};S.players.forEach(p=>(S.picks[p]||[]).forEach(id=>owners[id]=p));
+let h='<div class="cd" style="padding-bottom:6px"><div class="cs">Tournament Day</div>'+
+'<div class="ds">'+[1,2,3,4].map(d=>'<button class="db '+(d===S.curDay?'act':'')+'" onclick="setDay('+d+')">Day '+d+'</button>').join('')+'</div>'+
+'<div class="cs" style="margin-top:6px">Day '+S.curDay+' — Score each golfer vs par</div>';
+drafted.forEach(g=>{const cv=S.scores[g.id]?.[S.curDay];let gt=0;
+for(let d=1;d<=4;d++){const s=S.scores[g.id]?.[d];if(s!=null)gt+=s}
+const opts=[{l:'🦅 −2',v:-2,c:'egl'},{l:'🐦 −1',v:-1,c:'bir'},{l:'Par',v:0,c:''},{l:'+1',v:1,c:'bog'},{l:'+2',v:2,c:'dbl'},{l:'+3',v:3,c:'trp'}];
+const bg=avatarBg(g.rank);const ini=getInitials(g.name);
+h+='<div class="sg"><div class="sgh"><div style="display:flex;align-items:center;gap:8px"><div class="gav" style="background:'+bg+';width:30px;height:30px;font-size:.55rem">'+ini+'</div>'+
+'<div><div class="sgn">'+g.country+' '+g.name+' <span style="opacity:.4">#'+g.rank+'</span></div>'+
+'<div class="sgo">'+( owners[g.id]||'?')+'</div></div></div>'+
+'<div class="sgt '+sCls(gt)+'">'+fmtScore(gt)+'</div></div>'+
+'<div class="scr">'+opts.map(o=>'<button class="sc '+o.c+' '+(cv===o.v?'sel':'')+'" onclick="setSc(\''+g.id+'\','+S.curDay+','+o.v+')">'+o.l+'</button>').join('')+'</div></div>'});
+h+='</div>';
+
+// Bonus section
+h+='<div class="cd"><div class="ct">Bonus Rules</div>';
+h+='<div class="cs">Missed Cut (Top 6 picks only: +10 penalty)</div>';
+S.players.forEach(p=>{const ids=(S.picks[p]||[]).slice(0,6);if(!ids.length)return;
+h+='<div style="margin-bottom:10px"><div style="font-weight:600;font-size:.82rem;margin-bottom:4px">'+p+'</div>';
+ids.forEach(id=>{const g=S.golfers.find(x=>x.id===id);if(!g)return;
+const mc=!!S.missedCuts[id];
+h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:.82rem"><span>'+g.name+' #'+g.rank+'</span>'+
+'<div class="mc-toggle"><button class="'+(mc?'sel':'')+'" onclick="toggleMC(\''+id+'\')">'+( mc?'✂️ Missed Cut':'Made Cut')+'</button></div></div>'});
+h+='</div>'});
+
+h+='<div class="cs" style="margin-top:14px">Hole-in-One (−10 per ace)</div>';
+const allDrafted=[...allIds];allDrafted.forEach(id=>{const g=S.golfers.find(x=>x.id===id);if(!g)return;
+const count=S.holeInOnes[id]||0;if(count>0)h+='<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.82rem"><span>🎯 '+g.name+'</span><span style="color:var(--gold);font-weight:700">'+count+' ace(s) = −'+(count*10)+'</span></div>'});
+h+='<button class="bs" style="width:100%;margin-top:6px" onclick="promptHoleInOne()">🎯 Record Hole-in-One</button>';
+
+h+='<div class="cs" style="margin-top:14px">Tournament Winner (−15)</div>';
+const winnerG=S.winner?S.golfers.find(x=>x.id===S.winner):null;
+h+='<div style="font-size:.85rem;margin-bottom:6px">'+(winnerG?'🏆 '+winnerG.name:'No winner set')+'</div>';
+h+='<button class="bs" style="width:100%" onclick="promptWinner()">🏆 Set Tournament Winner</button>';
+h+='</div>';
+$('scoresC').innerHTML=h}
+
+function setSc(gid,day,v){if(!S.scores[gid])S.scores[gid]={1:null,2:null,3:null,4:null};
+S.scores[gid][day]=S.scores[gid][day]===v?null:v;renderScoring();renderBoard();saveState()}
+function setDay(d){S.curDay=d;renderScoring()}
+function toggleMC(gid){S.missedCuts[gid]=!S.missedCuts[gid];renderScoring();renderBoard();saveState()}
+window.setSc=setSc;window.setDay=setDay;window.toggleMC=toggleMC;
+
+async function promptHoleInOne(){const allIds=new Set();Object.values(S.picks).forEach(ids=>ids.forEach(id=>allIds.add(id)));
+const drafted=S.golfers.filter(g=>allIds.has(g.id)).sort((a,b)=>a.rank-b.rank);
+const names=drafted.map(g=>g.name).join(', ');
+const name=prompt('Enter golfer name who hit a hole-in-one:\n\n'+names);
+if(!name)return;const g=drafted.find(x=>x.name.toLowerCase().includes(name.toLowerCase()));
+if(!g){toast('Golfer not found',true);return}
+S.holeInOnes[g.id]=(S.holeInOnes[g.id]||0)+1;toast('🎯 Hole-in-one recorded for '+g.name+'!');
+renderScoring();renderBoard();saveState()}
+window.promptHoleInOne=promptHoleInOne;
+
+async function promptWinner(){const allIds=new Set();Object.values(S.picks).forEach(ids=>ids.forEach(id=>allIds.add(id)));
+const drafted=S.golfers.filter(g=>allIds.has(g.id)).sort((a,b)=>a.rank-b.rank);
+const names=drafted.map(g=>g.name).join(', ');
+const name=prompt('Enter tournament winner name:\n\n'+names);
+if(!name)return;const g=drafted.find(x=>x.name.toLowerCase().includes(name.toLowerCase()));
+if(!g){toast('Golfer not found in drafted players',true);return}
+S.winner=g.id;toast('🏆 '+g.name+' set as tournament winner!');
+renderScoring();renderBoard();saveState()}
+window.promptWinner=promptWinner;
+
+// PERSISTENCE
+function saveState(){try{localStorage.setItem('golfr_state',JSON.stringify({...S,pickedIds:[...S.pickedIds]}))}catch(e){}}
+function loadState(){try{const r=localStorage.getItem('golfr_state');if(!r)return false;const d=JSON.parse(r);Object.assign(S,d);S.pickedIds=new Set(d.pickedIds||[]);return S.phase!=='setup'}catch(e){return false}}
+
+// INIT
+function init(){loadTheme();loadApiKey();renderTournaments();
+if(S.apiKey)fetchSchedule();
+$('themeBtn').addEventListener('click',toggleTheme);
+$('settingsBtn').addEventListener('click',()=>switchView('vSettings'));
+$('apiTestBtn').addEventListener('click',testApi);
+$('apiSaveBtn').addEventListener('click',saveApiKey);
+$('plM').addEventListener('click',()=>updatePlCount(-1));
+$('plP').addEventListener('click',()=>updatePlCount(1));
+$('startBtn').addEventListener('click',startDraft);
+$('tournSelect').addEventListener('change',onTournSelect);
+$('fetchFieldBtn').addEventListener('click',()=>{if(S.selectedTourn?.tournId)fetchField(S.selectedTourn.tournId);else toast('Select a tournament first',true)});
+$$('.btab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.v)));
+$('rosterFab').addEventListener('click',toggleRoster);
+$('rosterOv').addEventListener('click',toggleRoster);
+$('gSearch').addEventListener('input',e=>{if(S.phase!=='drafting')return;renderGolferList(S.players[S.dOrder[S.pickIdx]],e.target.value)});
+if(loadState()){$('plC').textContent=S.numPl;renderPlInputs();
+if(S.phase==='drafting'){switchView('vDraft');renderDraft()}
+else if(S.phase==='scoring'){renderBoard();renderScoring();switchView('vBoard')}}
+else{renderPlInputs()}
+setInterval(saveState,5000);console.log('✅ GOLFR v3.0 initialized')}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+</script>
 </body>
 </html>

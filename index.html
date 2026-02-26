@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
 <style>
-:root
+:root{
 --g900:#0c1f0e;--g800:#14351a;--g700:#1a4a23;--g600:#1e6b2d;
 --g500:#22884a;--g400:#34d278;--g300:#6ee7a0;
 --gold:#d4a843;--gold-l:#f0d78c;--silver:#a8b5c0;--bronze:#b87333;
@@ -240,10 +240,10 @@ background-repeat:no-repeat;background-position:right 12px center;cursor:pointer
 <div id="gList"></div>
 </div>
 <div class="vw" id="vBoard"><div id="boardC">
-<div class="es"><div class="esi">🏌️</div><div class="est">No active league</div><div class="esd">Set up a league and draft first</div></div>
+<div class="es"><div class="esi">🏌️</div><div class="est">No active league</div><div class="esd">Set up a league and draft first</div><button class="bp" style="margin-top:14px;max-width:200px" onclick="switchView('vSetup')">Go to Setup →</button></div>
 </div></div>
 <div class="vw" id="vScores"><div id="scoresC">
-<div class="es"><div class="esi">📊</div><div class="est">No scores yet</div><div class="esd">Complete the draft to start scoring</div></div>
+<div class="es"><div class="esi">📊</div><div class="est">No scores yet</div><div class="esd">Complete the draft to start scoring</div><button class="bp" style="margin-top:14px;max-width:200px" onclick="switchView('vSetup')">Go to Setup →</button></div>
 </div></div>
 <div class="vw" id="vRules">
 <div class="cd">
